@@ -10,8 +10,14 @@ This is the code used for the experiments described in the following paper:
 
 ## Requirements:
 
-* >= Python 3.6
-* >= TensorFlow 1.13
+* \>= Python 3.6
+* \>= TensorFlow 1.13
+* \>= Gensim 3.5.0
+* \>= Keras 2.2.4
+* \>= NLTK 3.4
+* \>= Scikit-Learn 0.20.1
+* \>= Spacy 2.1.0
+* \>= TQDM 4.28.1
 
 ## Quick start:
 
