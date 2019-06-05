@@ -30,7 +30,7 @@ wget -P data/vectors/word2vec https://archive.org/download/Law2Vec/Law2Vec.200d.
 wget -P data/datasets http://nlp.cs.aueb.gr/software_and_datasets/EURLEX57K
 ```
 
-### Select training options in configuration json file
+### Select training options from the configuration JSON file:
 
 E.g., run a Label-wise Attention Network with BIGRUs (BIGRU-LWAN) with the best reported hyper-parameters
 
