@@ -1,8 +1,11 @@
-import json
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import logging
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
+
+import json
 import re
 import time
-import logging
 import tempfile
 import glob
 import tqdm
@@ -20,8 +23,8 @@ from vectorizer import W2VVectorizer, ELMoVectorizer, BERTVectorizer
 from data import DATA_SET_DIR, MODELS_DIR
 from configuration import Configuration
 from metrics import mean_recall_k, mean_precision_k, mean_ndcg_score, mean_rprecision_k
-from neural_networks.xmtc_networks.document_classification import DocumentClassification
-from neural_networks.xmtc_networks.label_driven_classification import LabelDrivenClassification
+from neural_networks.lmtc_networks.document_classification import DocumentClassification
+from neural_networks.lmtc_networks.label_driven_classification import LabelDrivenClassification
 
 LOGGER = logging.getLogger(__name__)
 
@@ -88,6 +91,8 @@ class LMTC:
         true_zero = deepcopy(zero)
         zero = zero + list(none)
 
+
+        # Compute margins for frequent / few / zero groups
         self.label_ids = dict()
         self.margins = [(0, len(frequent)+len(few)+len(true_zero))]
         k = 0
@@ -98,6 +103,8 @@ class LMTC:
                 k += 1
         self.margins[-1] = (self.margins[-1][0], len(frequent)+len(few)+len(true_zero))
 
+
+        # Compute label descriptors representations
         label_terms = []
         self.label_terms_text = []
         for i, (label, index) in enumerate(self.label_ids.items()):
@@ -106,6 +113,12 @@ class LMTC:
         self.label_terms_ids = self.vectorizer.vectorize_inputs(label_terms,
                                                                 max_sequence_size=Configuration['sampling']['max_label_size'],
                                                                 features=['word'])
+
+        # Eliminate labels out of scope (not in datasets)
+        self.labels_cutoff = len(frequent) + len(few) + len(true_zero)
+
+        self.label_terms_ids = self.label_terms_ids[:self.labels_cutoff]
+        label_terms = label_terms[:self.labels_cutoff]
 
         LOGGER.info('Labels shape:    {}'.format(len(label_terms)))
         LOGGER.info('Frequent labels: {}'.format(len(frequent)))

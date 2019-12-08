@@ -6,14 +6,14 @@ from keras import backend as K
 from keras.layers import Bidirectional, GlobalMaxPooling1D, Dropout
 from keras.layers import CuDNNGRU, GRU
 from keras.layers import Dense, Embedding, add, concatenate
-from keras.layers import Input, SpatialDropout1D, Lambda
+from keras.layers import Input, SpatialDropout1D
 from keras.layers.wrappers import TimeDistributed
 from keras.models import Model
 from keras.optimizers import Adam
 from keras.regularizers import l2
 from keras.constraints import MinMaxNorm
 
-from data import VECTORS_DIR, DATA_DIR
+from data import VECTORS_DIR
 from configuration import Configuration
 from neural_networks.layers import Camouflage, Attention, ContextualAttention, BERT
 from neural_networks.layers import TimestepDropout, SymmetricMasking, ElmoEmbeddingLayer
@@ -28,7 +28,7 @@ class DocumentClassification:
         self.n_classes = len(label_terms_ids)
         self._attention_mechanism = Configuration['model']['attention_mechanism']
         if 'word2vec' in Configuration['model']['token_encoding']:
-            self.word_embedding_path = os.path.join(VECTORS_DIR, 'word2vec', Configuration['model']['embeddings'])
+            self.word_embedding_path = os.path.join(VECTORS_DIR, Configuration['model']['embeddings'])
 
     def __del__(self):
         K.clear_session()

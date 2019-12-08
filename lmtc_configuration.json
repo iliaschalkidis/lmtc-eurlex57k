@@ -4,6 +4,7 @@
     "decision_type": "multi_label"
   },
   "model": {
+    "cuDNN_acceleration": false,
     "architecture": "LABEL_WISE_ATTENTION_NETWORK",
     "document_encoder": "grus",
     "n_hidden_layers": 1,
@@ -12,7 +13,7 @@
     "word_dropout_rate": 0.00,
     "lr": 0.001,
     "batch_size": 16,
-    "epochs": 50,
+    "epochs": 1,
     "attention_mechanism": "attention",
     "token_encoding": "word2vec",
     "embeddings": "law2vec.200d.txt",
@@ -22,6 +23,7 @@
     "max_sequences_size": null,
     "max_sequence_size": 5000,
     "max_label_size": 15,
+    "few_threshold": 50,
     "hierarchical": false,
     "evaluation@k": 10
   }

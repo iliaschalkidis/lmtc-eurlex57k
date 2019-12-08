@@ -22,14 +22,13 @@ class LabelDrivenClassification:
         self._cuDNN = Configuration['model']['cuDNN_acceleration']
         self._decision_type = Configuration['task']['decision_type']
         self.elmo = True if 'elmo' in Configuration['model']['token_encoding'] else False
-        self.label_encoder = Configuration['model']['label_encoder']
         self.token_encoder = Configuration['model']['document_encoder']
-        self.word_embedding_path = os.path.join(VECTORS_DIR, 'word2vec', Configuration['model']['embeddings'])
+        self.word_embedding_path = os.path.join(VECTORS_DIR, Configuration['model']['embeddings'])
         self.label_terms_ids = label_terms_ids
 
     def __del__(self):
         K.clear_session()
-        del self._model
+        del self.model
 
     def compile(self, n_hidden_layers, hidden_units_size, dropout_rate, word_dropout_rate, lr):
 
@@ -108,9 +107,9 @@ class LabelDrivenClassification:
         losses = 'binary_crossentropy' if self._decision_type == 'multi_label' else 'categorical_crossentropy'
         loss_weights = None
 
-        self._model = Model(inputs=[document_inputs] if not self.elmo else [document_inputs, document_inputs2],
+        self.model = Model(inputs=[document_inputs] if not self.elmo else [document_inputs, document_inputs2],
                             outputs=[document_label_encodings])
-        self._model.compile(optimizer=Adam(lr=lr, clipvalue=5.0), loss=losses, loss_weights=loss_weights)
+        self.model.compile(optimizer=Adam(lr=lr, clipvalue=5.0), loss=losses, loss_weights=loss_weights)
 
     def _compile_label_wise_attention_zero(self, n_hidden_layers, hidden_units_size, dropout_rate, word_dropout_rate, lr):
 
@@ -150,7 +149,7 @@ class LabelDrivenClassification:
         loss_weights = None
 
         # Compile network
-        self._model = Model(inputs=[document_inputs, labels_inputs] if not self.elmo
+        self.model = Model(inputs=[document_inputs, labels_inputs] if not self.elmo
                             else [document_inputs, document_inputs2, labels_inputs],
                             outputs=[outputs])
-        self._model.compile(optimizer=Adam(lr=lr, clipvalue=5.0), loss=losses, loss_weights=loss_weights)
+        self.model.compile(optimizer=Adam(lr=lr, clipvalue=5.0), loss=losses, loss_weights=loss_weights)

@@ -23,6 +23,10 @@ This is the code used for the experiments described in the following paper:
 
 ```
 pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+python
+>>> import nltk
+>>> nltk.download('punkt')
 ```
 
 ### Get pre-trained word embeddings (GloVe + Law2Vec):
@@ -39,6 +43,9 @@ wget -O data/vectors/law2vec.200d.txt https://archive.org/download/Law2Vec/Law2V
 wget -O data/datasets/datasets.zip http://nlp.cs.aueb.gr/software_and_datasets/EURLEX57K/datasets.zip
 unzip data/datasets/datasets.zip -d data/datasets/EURLEX57K
 rm data/datasets/datasets.zip
+rm -rf data/datasets/EURLEX57K/__MACOSX
+mv data/datasets/EURLEX57K/dataset/* data/datasets/EURLEX57K/
+rm -rf data/datasets/EURLEX57K/dataset
 wget -O data/datasets/EURLEX57K/EURLEX57K.json http://nlp.cs.aueb.gr/software_and_datasets/EURLEX57K/eurovoc_en.json
 ```
 
@@ -73,6 +80,7 @@ nano ltmc_configuration.json
     "max_sequences_size": null,
     "max_sequence_size": 5000,
     "max_label_size": 15,
+    "few_threshold": 50,
     "hierarchical": false,
     "evaluation@k": 10
   }
@@ -80,7 +88,7 @@ nano ltmc_configuration.json
 ```
 
 **Supported models:** BIGRUS, LABEL_WISE_ATTENTION_NETWORK, ZERO_LABEL_WISE_ATTENTION_NETWORK, BERT
-**Supported token encodings:** word2vec, elmo
+**Supported token encodings:** word2vec, elmo 
 **Supported document encoders:** grus, cnns
 
 ### Train a model:
