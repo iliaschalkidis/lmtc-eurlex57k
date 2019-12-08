@@ -28,18 +28,18 @@ pip install -r requirements.txt
 ### Get pre-trained word embeddings (GloVe + Law2Vec):
 
 ```
-wget -P data/vectors/word2vec http://nlp.stanford.edu/data/glove.6B.zip
-unzip -j data/vectors/word2vec/glove.6B.zip glove.6B.200d.txt
-wget -P data/vectors/word2vec https://archive.org/download/Law2Vec/Law2Vec.200d.txt
+wget -P data/vectors/ http://nlp.stanford.edu/data/glove.6B.zip
+unzip -j data/vectors/glove.6B.zip data/vectors/glove.6B.200d.txt
+wget -O data/vectors/law2vec.200d.txt https://archive.org/download/Law2Vec/Law2Vec.200d.txt
 ```
 
 ### Download dataset (EURLEX57K):
 
 ```
-cd data/datasets
-wget http://nlp.cs.aueb.gr/software_and_datasets/EURLEX57K/datasets.zip
-unzip datasets.zip -d /EURLEX57K
-wget -P /EURLEX57K http://nlp.cs.aueb.gr/software_and_datasets/EURLEX57K/eurovoc_en.json
+wget -O data/datasets/datasets.zip http://nlp.cs.aueb.gr/software_and_datasets/EURLEX57K/datasets.zip
+unzip data/datasets/datasets.zip -d data/datasets/EURLEX57K
+rm data/datasets/datasets.zip
+wget -O data/datasets/EURLEX57K/EURLEX57K.json http://nlp.cs.aueb.gr/software_and_datasets/EURLEX57K/eurovoc_en.json
 ```
 
 ### Select training options from the configuration JSON file:
@@ -51,7 +51,7 @@ nano ltmc_configuration.json
 
 {
   "task": {
-    "dataset": "eurovoc_en",
+    "dataset": "EURLEX57K",
     "decision_type": "multi_label"
   },
   "model": {
@@ -66,7 +66,7 @@ nano ltmc_configuration.json
     "epochs": 50,
     "attention_mechanism": "attention",
     "token_encoding": "word2vec",
-    "embeddings": "Law2Vec.200d.txt",
+    "embeddings": "law2vec.200d.txt",
     "bert": "bertbase"
   },
   "sampling": {
@@ -81,6 +81,7 @@ nano ltmc_configuration.json
 
 **Supported models:** BIGRUS, LABEL_WISE_ATTENTION_NETWORK, ZERO_LABEL_WISE_ATTENTION_NETWORK, BERT
 **Supported token encodings:** word2vec, elmo
+**Supported document encoders:** grus, cnns
 
 ### Train a model:
 

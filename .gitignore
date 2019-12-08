@@ -1,0 +1,8 @@
+.DS_Store
+*.pyc
+*.pyo
+*.hdf5
+*.f5
+.idea/
+.ipynb_checkpoints
+lmtc-eurlex57k.egg-info
