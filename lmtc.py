@@ -96,7 +96,7 @@ class LMTC:
         self.label_ids = dict()
         self.margins = [(0, len(frequent)+len(few)+len(true_zero))]
         k = 0
-        for group in [frequent, few, zero]:
+        for group in [frequent, few, true_zero]:
             self.margins.append((k, k+len(group)))
             for concept in group:
                 self.label_ids[concept] = k
