@@ -13,10 +13,11 @@ import tqdm
 import numpy as np
 from copy import deepcopy
 from collections import Counter
-from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras.utils import Sequence
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.utils import Sequence
 from nltk.tokenize import word_tokenize
 from sklearn.metrics import f1_score, precision_score, recall_score
+import tensorflow as tf
 
 from json_loader import JSONLoader
 from vectorizer import W2VVectorizer, ELMoVectorizer, BERTVectorizer
@@ -246,7 +247,7 @@ class LMTC:
                                                   epochs=Configuration['model']['epochs'],
                                                   callbacks=[early_stopping, model_checkpoint])
 
-        network.model.save(os.path.join(MODELS_DIR, '{}.h5'.format('{}_{}_{}'.format(
+        network.model.save(os.path.join(MODELS_DIR, '{}'.format('{}_{}_{}'.format(
             Configuration['task']['dataset'].upper(), 'HIERARCHICAL' if Configuration['sampling']['hierarchical'] else 'FLAT',
             Configuration['model']['architecture'].upper()))))
 

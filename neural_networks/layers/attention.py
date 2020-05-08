@@ -1,6 +1,6 @@
-from keras import backend as K
-from keras import initializers, regularizers, constraints
-from keras.layers.core import Layer
+from tensorflow.keras import backend as K
+from tensorflow.keras import initializers, regularizers, constraints
+from tensorflow.keras.layers import Layer
 
 
 def dot_product(x, kernel):
@@ -63,12 +63,12 @@ class Attention(Layer):
     def build(self, input_shape):
         assert len(input_shape) == 3
 
-        self.W = self.add_weight((input_shape[-1],),
+        self.W = self.add_weight(shape=(input_shape[-1],),
                                  initializer=self.init,
                                  name='{}_W'.format(self.name))
 
         if self.bias:
-            self.b = self.add_weight((input_shape[1],),
+            self.b = self.add_weight(shape=(input_shape[1],),
                                      initializer='zeros',
                                      name='{}_b'.format(self.name),
                                      regularizer=self.b_regularizer,
@@ -167,13 +167,13 @@ class ContextualAttention(Layer):
     def build(self, input_shape):
         assert len(input_shape) == 3
 
-        self.W = self.add_weight((input_shape[-1], input_shape[-1],),
+        self.W = self.add_weight(shape=(input_shape[-1], input_shape[-1],),
                                  initializer=self.init,
                                  name='{}_W'.format(self.name),
                                  regularizer=self.W_regularizer,
                                  constraint=self.W_constraint)
         if self.bias:
-            self.b = self.add_weight((input_shape[-1],),
+            self.b = self.add_weight(shape=(input_shape[-1],),
                                      initializer='zeros',
                                      name='{}_b'.format(self.name),
                                      regularizer=self.b_regularizer,
@@ -181,7 +181,7 @@ class ContextualAttention(Layer):
         else:
             self.b = None
 
-        self.u = self.add_weight((input_shape[-1],),
+        self.u = self.add_weight(shape=(input_shape[-1],),
                                  initializer=self.init,
                                  name='{}_u'.format(self.name),
                                  regularizer=self.u_regularizer,
@@ -251,12 +251,12 @@ class LabelDrivenAttention(Layer):
         assert len(input_shape[1]) == 2
         assert input_shape[0][-1] == input_shape[1][-1]
 
-        self.W_d = self.add_weight((input_shape[1][-1], input_shape[0][-1]),
+        self.W_d = self.add_weight(shape=(input_shape[1][-1], input_shape[0][-1]),
                                    initializer=self.init,
                                    regularizer=self.W_regularizer,
                                    name='{}_Wd'.format(self.name))
 
-        self.b_d = self.add_weight((input_shape[1][-1],),
+        self.b_d = self.add_weight(shape=(input_shape[1][-1],),
                                    initializer='zeros',
                                    regularizer=self.b_regularizer,
                                    name='{}_bd'.format(self.name))
@@ -287,7 +287,7 @@ class LabelDrivenAttention(Layer):
             else:
                 return [label_aware_doc_rep, label_aware_doc_rep]
 
-        label_aware_doc_reprs, attention_scores = K.tf.map_fn(label_wise_attention, [doc_reps, doc_a])
+        label_aware_doc_reprs, attention_scores = K.map_fn(label_wise_attention, [doc_reps, doc_a])
 
         label_aware_doc_reprs = K.sum(label_aware_doc_reprs * label_reps, axis=-1)
         label_aware_doc_reprs = K.sigmoid(label_aware_doc_reprs)
@@ -320,17 +320,17 @@ class LabelWiseAttention(Layer):
     def build(self, input_shape):
         assert len(input_shape) == 3
 
-        self.Wa = self.add_weight((self.n_classes, input_shape[-1]),
+        self.Wa = self.add_weight(shape=(self.n_classes, input_shape[-1]),
                                   initializer=self.init,
                                   regularizer=self.W_regularizer,
                                   name='{}_Wa'.format(self.name))
 
-        self.Wo = self.add_weight((self.n_classes, input_shape[-1]),
+        self.Wo = self.add_weight(shape=(self.n_classes, input_shape[-1]),
                                   initializer=self.init,
                                   regularizer=self.W_regularizer,
                                   name='{}_Wo'.format(self.name))
 
-        self.bo = self.add_weight((self.n_classes,),
+        self.bo = self.add_weight(shape=(self.n_classes,),
                                   initializer='zeros',
                                   regularizer=self.b_regularizer,
                                   name='{}_bo'.format(self.name))
@@ -356,7 +356,7 @@ class LabelWiseAttention(Layer):
             else:
                 return [label_aware_doc_rep, label_aware_doc_rep]
 
-        label_aware_doc_reprs, attention_scores = K.tf.map_fn(label_wise_attention, [x, a])
+        label_aware_doc_reprs, attention_scores = K.map_fn(label_wise_attention, [x, a])
 
         # Compute label-scores
         label_aware_doc_reprs = K.sum(label_aware_doc_reprs * self.Wo, axis=-1) + self.bo

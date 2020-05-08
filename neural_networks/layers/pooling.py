@@ -1,5 +1,5 @@
-import keras.backend as K
-from keras.layers import GlobalAveragePooling1D
+import tensorflow.keras.backend as K
+from tensorflow.keras.layers import GlobalAveragePooling1D
 
 
 class GlobalMeanPooling1D(GlobalAveragePooling1D):

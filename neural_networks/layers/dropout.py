@@ -2,9 +2,8 @@
 from __future__ import absolute_import
 from __future__ import division
 
-from keras import backend as K
-from keras.engine import InputSpec
-from keras.layers import Dropout
+from tensorflow.keras import backend as K
+from tensorflow.keras.layers import Dropout, InputSpec
 
 
 class TimestepDropout(Dropout):
