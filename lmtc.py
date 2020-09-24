@@ -135,7 +135,7 @@ class LMTC:
         loader = JSONLoader()
 
         documents = []
-        for filename in tqdm.tqdm(sorted(filenames)[:10]):
+        for filename in tqdm.tqdm(sorted(filenames)):
             documents.append(loader.read_file(filename))
 
         return documents
