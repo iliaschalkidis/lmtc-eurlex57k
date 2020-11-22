@@ -26,9 +26,9 @@ class LabelDrivenClassification:
         self.word_embedding_path = os.path.join(VECTORS_DIR, Configuration['model']['embeddings'])
         self.label_terms_ids = label_terms_ids
 
-    def __del__(self):
-        K.clear_session()
-        del self.model
+    #def __del__(self):
+    #    K.clear_session()
+    #    del self.model
 
     def compile(self, n_hidden_layers, hidden_units_size, dropout_rate, word_dropout_rate, lr):
 

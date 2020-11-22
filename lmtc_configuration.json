@@ -5,19 +5,20 @@
   },
   "model": {
     "cuDNN_acceleration": false,
-    "architecture": "LABEL_WISE_ATTENTION_NETWORK",
+    "architecture": "BERT",
     "document_encoder": "grus",
     "n_hidden_layers": 1,
     "hidden_units_size": 300,
     "dropout_rate": 0.4,
     "word_dropout_rate": 0.00,
-    "lr": 0.001,
-    "batch_size": 16,
-    "epochs": 1,
+    "lr": 1e-5,
+    "batch_size": 4, 
+    "epochs": 200,
     "attention_mechanism": "attention",
     "token_encoding": "word2vec",
     "embeddings": "law2vec.200d.txt",
-    "bert": "bertbase"
+    "bert": "bertbase",
+    "bert_case":"uncased" 
   },
   "sampling": {
     "max_sequences_size": null,

@@ -5,6 +5,7 @@ import numpy as np
 
 from data import VECTORS_DIR, DATA_DIR
 from configuration import Configuration
+from transformers import AutoTokenizer
 from neural_networks.layers.bert import BERTTextEncoder
 
 
@@ -22,14 +23,17 @@ class BERTVectorizer(Vectorizer):
     def __init__(self):
         super().__init__()
 
-    def vectorize_inputs(self, sequences: List[List[str]], max_sequence_size=100, **kwargs):
-
+    def load_tokenizer(self,max_sequence_size):
         bert_tokenizer = BERTTextEncoder(vocab_file=os.path.join(DATA_DIR, 'bert',
                                                                  Configuration['model']['bert'],
                                                                  'vocab.txt'),
                                          do_lower_case=True,
                                          max_len=max_sequence_size)
+        return bert_tokenizer
 
+    def vectorize_inputs(self, sequences: List[List[str]], max_sequence_size=100, **kwargs):
+
+        bert_tokenizer=self.load_tokenizer(max_sequence_size)
         token_indices = np.zeros((len(sequences), max_sequence_size), dtype=np.int32)
         seg_indices = np.zeros((len(sequences), max_sequence_size), dtype=np.int32)
         mask_indices = np.zeros((len(sequences), max_sequence_size), dtype=np.int32)
@@ -43,6 +47,17 @@ class BERTVectorizer(Vectorizer):
         return np.concatenate((np.reshape(token_indices, [len(sequences), max_sequence_size, 1]),
                                np.reshape(mask_indices, [len(sequences), max_sequence_size, 1]),
                                np.reshape(seg_indices, [len(sequences), max_sequence_size, 1])), axis=-1)
+
+
+
+class HgBERTVectorizer(BERTVectorizer):
+
+    def __init__(self):
+        super().__init__()
+
+    def load_tokenizer(self,max_sequence_size):
+        hg_tokenizer = AutoTokenizer.from_pretrained("nlpaueb/legal-bert-base-uncased",max_len=max_sequence_size)
+        return hg_tokenizer
 
 
 class ELMoVectorizer(Vectorizer):

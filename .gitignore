@@ -1,7 +1,10 @@
+data_/
+data/
 .DS_Store
 *.pyc
 *.pyo
 *.hdf5
+*.h5
 *.f5
 .idea/
 .ipynb_checkpoints

@@ -4,6 +4,8 @@ from keras.layers import Layer, Lambda
 import keras.backend as K
 from configuration import Configuration
 from typing import List
+from transformers import  AutoModel
+
 
 try:
     from .bert_tokenization import FullTokenizer
@@ -28,6 +30,8 @@ class BERT(Layer):
         if Configuration['model']['bert'] == 'bertbase':
             self.bert = hub.Module('https://tfhub.dev/google/bert_{}_L-12_H-768_A-12/1'.format(Configuration['model']['bert_case']),
                                    trainable=True, name="{}_module".format(self.name))
+        # elif Configuration['model']['bert'] == 'legalbert':
+        #     self.bert = AutoModel.from_pretrained("nlpaueb/legal-bert-base-uncased")
         else:
             raise Exception('Unsupported bert module: "{}". Valid modules are: bertbase'.format(Configuration['model']['bert']))
 
