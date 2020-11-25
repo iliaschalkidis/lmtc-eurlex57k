@@ -8,7 +8,7 @@ This is the code used for the experiments described in the following paper:
 ## Requirements:
 
 * \>= Python 3.6
-* == TensorFlow 1.13
+* >= TensorFlow 2.1
 * == TensorFlow-Hub 0.7.0
 * \>= Gensim 3.5.0
 * == Keras 2.2.4
