@@ -1,13 +1,13 @@
 import numpy as np
 import os
 from gensim.models import KeyedVectors
-from keras import backend as K
-from keras.layers import Bidirectional
-from keras.layers import Conv1D, Activation, Embedding
-from keras.layers import Input, SpatialDropout1D
-from keras.layers import GRU, CuDNNGRU, add, concatenate
-from keras.models import Model
-from keras.optimizers import Adam
+from tensorflow.keras import backend as K
+from tensorflow.keras.layers import Bidirectional
+from tensorflow.keras.layers import Conv1D, Activation, Embedding
+from tensorflow.keras.layers import Input, SpatialDropout1D
+from tensorflow.keras.layers import GRU, add, concatenate
+from tensorflow.keras.models import Model
+from tensorflow.keras.optimizers import Adam
 
 from data import VECTORS_DIR
 from configuration import Configuration
@@ -97,7 +97,7 @@ class LabelDrivenClassification:
             document_inputs = Input(shape=(None,), name='document_inputs')
             self.pretrained_embeddings = self.PretrainedEmbedding()
             document_embs = self.pretrained_embeddings(document_inputs)
-
+            
         document_ngram_encodings = self.TokenEncoder(inputs=document_embs, encoder=self.token_encoder, dropout_rate=dropout_rate,
                                                      word_dropout_rate=word_dropout_rate, hidden_layers=n_hidden_layers,
                                                      hidden_units_size=hidden_units_size)

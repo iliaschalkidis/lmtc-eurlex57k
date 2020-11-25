@@ -1,7 +1,7 @@
-import keras.backend as K
+import tensorflow.keras.backend as K
 import tensorflow as tf
 import tensorflow_hub as hub
-from keras.layers import Layer
+from tensorflow.keras.layers import Layer
 
 
 class ElmoEmbeddingLayer(Layer):

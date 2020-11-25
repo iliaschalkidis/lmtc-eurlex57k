@@ -1,7 +1,6 @@
 tensorflow-hub==0.7.0
-tensorflow==1.15.2
+tensorflow==2.1.0
 gensim>=3.5.0
-keras==2.2.4
 nltk>=3.4
 sklearn>=0.20.1
 spacy>=2.1.0

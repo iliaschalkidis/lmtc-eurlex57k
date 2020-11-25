@@ -1,7 +1,7 @@
 import logging
 import tensorflow_hub as hub
-from keras.layers import Layer, Lambda
-import keras.backend as K
+from tensorflow.keras.layers import Layer, Lambda
+import tensorflow.keras.backend as K
 from configuration import Configuration
 from typing import List
 
