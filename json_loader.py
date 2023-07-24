@@ -18,7 +18,7 @@ class JSONLoader:
         sections.append(data['header'])
         sections.append(data['recitals'])
         sections.extend(data['main_body'])
-        sections.extend(data['attachments'])
+        sections.append(data['attachments'])
 
         if not Configuration['sampling']['hierarchical']:
             text = '\n'.join(sections)
